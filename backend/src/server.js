@@ -2,10 +2,12 @@ const express = require("express");
 const app = express();
 const notes = require("../data/notes");
 const dotenv = require("dotenv");
+const connectDB = require("../config/db");
 
 ////////😕
 app.parse = express.json();
 dotenv.config();
+connectDB()
 
 ////////
 
