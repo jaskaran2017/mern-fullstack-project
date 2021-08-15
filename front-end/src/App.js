@@ -6,6 +6,8 @@ import Header from "./components/Header/Header";
 import LandingPage from "./screens/LandingPage/LandingPage";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import MyNotes from "./screens/MyNotes/MyNotes";
+import LoginScreen from "./screens/Login/LoginScreen";
+import RegisterScreen from "./screens/Register/RegisterScreen";
 
 /////////
 const App = () => {
@@ -14,6 +16,8 @@ const App = () => {
       <Header />
       <main>
         <Route exact path="/" component={LandingPage} />
+        <Route exact path="/login" component={LoginScreen} />
+        <Route exact path="/register" component={RegisterScreen} />
         <Route path="/mynotes" component={() => <MyNotes />} />
       </main>
       <Footer />
