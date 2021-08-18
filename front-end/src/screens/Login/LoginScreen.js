@@ -1,49 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./LoginScreen.css";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Mainscreen from "../../components/Mainscreen";
-import axios from "axios";
+
 import Loading from "../../components/Loading/Loading";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../actions/Actions";
 
 ////////////////////////////
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+ const history = useHistory()
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  useEffect(() => {
+    if(userInfo){
+      history.push('/mynotes')
+    }
+  }, [history, userInfo])
 
   ////////////////////////
   const submitHandler = async (e) => {
     e.preventDefault();
-    // console.log(email, password);
-    //now making POST request for login by calling our API
-    try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-      // after creating the config now its time to create api call.
-      setLoading(true);
-      //we will finally receive some data from the backend so we will write the const in destructured way
-      const data = await axios.post(
-        "/api/users/login",
-        { email, password },
-        config
-      );
-      console.log(data);
-      // after data has been fetched it will be stored inside the local storage
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      setLoading(false);
-    } catch (error) {
-      // console.log(err);
-      // alert(error.message);
-      setError(error.message);
-      setLoading(false);
-    }
+    dispatch(login(email, password));
   };
 
   /////////////////////////////////////////
@@ -81,7 +66,9 @@ const LoginScreen = () => {
             Submit
           </Button>
           <Row className="py-3">
-            <Col>New Customer ? <Link to="/register"> Register Here..</Link></Col>
+            <Col>
+              New Customer ? <Link to="/register"> Register Here..</Link>
+            </Col>
           </Row>
         </Form>
       </div>
