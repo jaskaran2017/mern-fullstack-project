@@ -3,11 +3,14 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { userLoginReducer, userRegisterReducer } from "./reducers/UserReducers";
+import { noteCreateReducer, noteListReducer } from "./reducers/NotesReducers";
 
 // create reducer
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  noteList:noteListReducer ,
+  noteCreate:noteCreateReducer 
 });
 
 // setting up initial state

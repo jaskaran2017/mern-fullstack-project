@@ -4,12 +4,17 @@ const app = express();
 const notes = require("../data/notes");
 
 const connectDB = require("../config/db");
+// const mainRoutes = require('./Routes.js')
+
 const userRoutes = require("../routers/userRoutes");
-// const { notFound, errorHandler } = require("../middleware/ErrorHandler");
+const noteRoutes = require("../routers/noteRoutes");
+const { notFound, errorHandler } = require("../middleware/ErrorHandler");
+const {protector } = require("../middleware/authMiddleware");
 ////////😕
 
-console.log(process.env.JWT_SECRET);
+// console.log(process.env.JWT_SECRET);
 connectDB();
+// protector()
 app.use(express.json());
 
 ////////
@@ -31,11 +36,16 @@ app.get("/api/notes", (req, res) => {
 // defining routers now for users
 
 // No. 1 for new user registration
+// app.use(mainRoutes)
 app.use("/api/users", userRoutes);
 
+// No. 2 route for notes
+app.use("/api/notes",protector, noteRoutes);
+
 // middlewares for error handling
-// app.use(notFound);
-// app.use(errorHandler);
+app.use(notFound);
+app.use(errorHandler);
+// app.use(protector);
 
 // defining PORT for app
 
