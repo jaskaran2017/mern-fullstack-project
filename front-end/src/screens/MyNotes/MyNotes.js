@@ -17,7 +17,7 @@ function MyNotes({ history }) {
   const dispatch = useDispatch();
   const noteList = useSelector((state) => state.noteList);
   const { loading, error, notes } = noteList;
-  console.log(notes);
+  // console.log(notes);
   //for pushing the user to home page on logout
   const userLogin = useSelector((state) => state.userLogin);
   //from userlogin we extract user info
@@ -43,6 +43,7 @@ function MyNotes({ history }) {
 
     // now api will be called with the help of useDispach
     dispatch(listNotes());
+
     if (!userInfo) {
       alert("You are not logged in.");
       history.push("/");
@@ -60,88 +61,89 @@ function MyNotes({ history }) {
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
       {loading && <Loading />}
       {/* if notes coming from backend only then they will be mapped here and displayed */}
-      {notes?.reverse().map((note) => (
-        //Accordian function is used from bootstrap to make a component hide and show on clicking
-        <Accordion>
-          <Card style={{ margin: "10px" }} key={notes._id}>
-            <Card.Header
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                curser: "pointer",
-              }}
-            >
-              <span
+      {notes &&
+        notes.reverse().map((note) => (
+          //Accordian function is used from bootstrap to make a component hide and show on clicking
+          <Accordion>
+            <Card style={{ margin: "10px" }} key={note._id}>
+              <Card.Header
                 style={{
-                  flex: "1",
-                  fontSize: "20px",
-                  textDecoration: "none",
-                  alignSelf: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                   curser: "pointer",
-                  // border: "2px solid",
                 }}
               >
-                {/* Accordian.Toggle is for telling the react that we will click on this  */}
-                <Accordion.Toggle
-                  as={Card.Text}
-                  eventKey="0"
-                  variant="link"
-                  // style={{ curser: "pointer" }}
+                <span
+                  style={{
+                    flex: "1",
+                    fontSize: "20px",
+                    textDecoration: "none",
+                    alignSelf: "right",
+                    curser: "pointer",
+                    // border: "2px solid",
+                  }}
                 >
-                  {note.title}
-                </Accordion.Toggle>
-              </span>
-
-              <div>
-                <Button
-                  href={`/note/${notes._id}`}
-                  size="sm"
-                  variant="primary"
-                  style={{ textAlign: "center", width: "60px" }}
-                >
-                  <p
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      margin: "15px",
-                    }}
+                  {/* Accordian.Toggle is for telling the react that we will click on this  */}
+                  <Accordion.Toggle
+                    as={Card.Text}
+                    eventKey="0"
+                    variant="link"
+                    // style={{ curser: "pointer" }}
                   >
-                    Edit
-                  </p>
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  className="mx-2"
-                  onClick={() => deletehandler(note._id)}
-                  style={{ textAlign: "center", width: "60px" }}
-                >
-                  Delete
-                </Button>
-              </div>
-            </Card.Header>
-            {/* Accordian.Collapes will be functional when it recieves the click event already specifies some where above which has the same event key */}
-            <Accordion.Collapse eventKey="0">
-              <Card.Body>
-                <h4>
-                  <Badge variant="success">Catagory - {note.catagory}</Badge>
-                </h4>
-                <blockquote className="blockquote mb-0">
-                  <ReactMarkdown>{note.content}</ReactMarkdown>
-                  <footer className="blockquote-footer">
-                    Created on{" "}
-                    <cite title=" Source Title">
-                      {note.createdAt.subString(0, 10)}
-                    </cite>
-                  </footer>
-                </blockquote>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
-      ))}
+                    {note.title}
+                  </Accordion.Toggle>
+                </span>
+
+                <div>
+                  <Button
+                    href={`/note/${note._id}`}
+                    size="sm"
+                    variant="primary"
+                    style={{ textAlign: "center", width: "60px" }}
+                  >
+                    <p
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: "15px",
+                      }}
+                    >
+                      Edit
+                    </p>
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    className="mx-2"
+                    onClick={() => deletehandler(note._id)}
+                    style={{ textAlign: "center", width: "60px" }}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Card.Header>
+              {/* Accordian.Collapes will be functional when it recieves the click event already specifies some where above which has the same event key */}
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <h4>
+                    <Badge variant="success">Catagory - {note.catagory}</Badge>
+                  </h4>
+                  <blockquote className="blockquote mb-0">
+                    <ReactMarkdown>{note.content}</ReactMarkdown>
+                    <footer className="blockquote-footer">
+                      Created on{" "}
+                      <cite title=" Source Title">
+                        {/* {note.createdAt.substring(0, 10)} */}
+                      </cite>
+                    </footer>
+                  </blockquote>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+        ))}
     </Mainscreen>
   );
 }

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const notes = require("../data/notes");
+// const notes = require("../data/notes");// used for dummy data.
 
 const connectDB = require("../config/db");
 // const mainRoutes = require('./Routes.js')
@@ -9,7 +9,7 @@ const connectDB = require("../config/db");
 const userRoutes = require("../routers/userRoutes");
 const noteRoutes = require("../routers/noteRoutes");
 const { notFound, errorHandler } = require("../middleware/ErrorHandler");
-const {protector } = require("../middleware/authMiddleware");
+
 ////////😕
 
 // console.log(process.env.JWT_SECRET);
@@ -19,13 +19,13 @@ app.use(express.json());
 
 ////////
 
-app.get("/", (req, res) => {
-  res.send("Api is running......");
-});
-// api to get whole data from backend
-app.get("/api/notes", (req, res) => {
-  res.send(notes);
-});
+// app.get("/", (req, res) => {
+//   res.send("Api is running......");
+// });
+// api to get whole data from backend// for dummy data collection
+// app.get("/api/notes", (req, res) => {
+//   res.send(notes);
+// });
 // // api to get sigle/perticular data from backend
 // app.get("/api/notes/:id", (req, res) => {
 //   const note = notes.find((n) => n._id === req.params.id);
@@ -40,7 +40,7 @@ app.get("/api/notes", (req, res) => {
 app.use("/api/users", userRoutes);
 
 // No. 2 route for notes
-app.use("/api/notes",protector, noteRoutes);
+app.use("/api/notes", noteRoutes);
 
 // middlewares for error handling
 app.use(notFound);

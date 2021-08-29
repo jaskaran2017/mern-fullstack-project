@@ -15,12 +15,12 @@ const reducer = combineReducers({
 
 // setting up initial state
 // But before we need to check if there is anything in the local storage using condition
-const userInforFromStorage = localStorage.getItem("userInfo")
+const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
 const initialState = {
-  userLogin: { userInfo: userInforFromStorage },
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
 export const middleware = [thunk];

@@ -52,7 +52,10 @@ const Header = () => {
               <Link to="/mynotes">My Notes</Link>
             </Nav.Link>
 
-            <NavDropdown title="Jasjit" id="navbarScrollingDropdown">
+            <NavDropdown
+              title={userInfo.data.name}
+              id="navbarScrollingDropdown"
+            >
               <NavDropdown.Item href="#action4">My Profile</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={logoutHandler}>

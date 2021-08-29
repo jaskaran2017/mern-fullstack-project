@@ -12,7 +12,7 @@ import {
 // first create a function for login
 export const login = (email, password) => async (dispach) => {
   try {
-      //first of all userLoginRequest will be sent then this will turn loading function on
+    //first of all userLoginRequest will be sent then this will turn loading function on
     dispach({
       type: USER_LOGIN_REQUEST,
     });
@@ -27,7 +27,7 @@ export const login = (email, password) => async (dispach) => {
       { email, password },
       config
     );
-// now waiting for API call response
+    // now waiting for API call response
     dispach({
       type: USER_LOGIN_SUCCESS,
       payload: data,
@@ -35,7 +35,7 @@ export const login = (email, password) => async (dispach) => {
     // when response recieved , local storage will be updated
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
-      // if anything went wrong error message will be displayed
+    // if anything went wrong error message will be displayed
     dispach({
       type: USER_LOGIN_FAIL,
       payload:
@@ -49,7 +49,7 @@ export const login = (email, password) => async (dispach) => {
 // second create a function for logOut
 
 export const logout = () => async (dispatch) => {
-    // when we call logout, all the infor removed from local storage
+  // when we call logout, all the infor removed from local storage
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
 };
@@ -57,8 +57,8 @@ export const logout = () => async (dispatch) => {
 // creating function for new user registration
 
 export const register = (name, email, password, pic) => async (dispach) => {
- // registration request is also same as login request. all steps are same
-    try {
+  // registration request is also same as login request. all steps are same
+  try {
     dispach({
       type: USER_REGISTER_REQUEST,
     });

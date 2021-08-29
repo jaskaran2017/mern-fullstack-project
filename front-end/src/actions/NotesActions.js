@@ -27,9 +27,12 @@ export const listNotes = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.data.token}`,
       },
     };
+    // console.log(config);
     // get api call
+    // const { noteCreate } = getState();
+
     const { data } = await axios.get("/api/notes", config);
-    console.log({data});
+    console.log(data);
     // after making the request now waiting for response. then on success
     dispatch({
       type: NOTES_LIST_SUCCESS,

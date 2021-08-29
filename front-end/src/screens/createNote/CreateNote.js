@@ -14,8 +14,8 @@ function CreateNote({ history }) {
 
   const dispatch = useDispatch();
   const noteCreate = useSelector((state) => state.noteCreate);
-  const { loading, error, note } = noteCreate;
-  console.log(note);
+  const { loading, error, userInfo } = noteCreate;
+  console.log(userInfo);
 
   const submitHandler = (e) => {
     e.preventDefault();
