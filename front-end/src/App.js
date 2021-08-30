@@ -9,7 +9,7 @@ import MyNotes from "./screens/MyNotes/MyNotes";
 import LoginScreen from "./screens/Login/LoginScreen";
 import RegisterScreen from "./screens/Register/RegisterScreen";
 import CreateNote from "./screens/createNote/CreateNote";
-
+import ProfileScreen from "./screens/Profile/Profile";
 /////////
 const App = () => {
   return (
@@ -18,6 +18,7 @@ const App = () => {
       <main>
         <Route exact path="/" component={LandingPage} />
         <Route path="/login" component={LoginScreen} />
+        <Route path="/profile" component={ProfileScreen} />
         <Route path="/register" component={RegisterScreen} />
         <Route path="/createnote" component={CreateNote} />
         <Route path="/mynotes" component={() => <MyNotes />} />

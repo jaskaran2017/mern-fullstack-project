@@ -7,6 +7,9 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_UPDATE_FAIL,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
 } from "../constants/UserConstants";
 
 // first create a function for login
@@ -85,6 +88,43 @@ export const register = (name, email, password, pic) => async (dispach) => {
   } catch (error) {
     dispach({
       type: USER_REGISTER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// function to update the user profile
+// this function will take user as the aurgument{all the info from the user object}
+export const updateProfile = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_UPDATE_REQUEST }); // this will make loading to true
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    // now calling updateProfile Api
+    const { data } = await axios.post("/api/users/profile", user, config);
+
+    //after getting data dispatch next req.
+    dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
+    //after getting data dispatch login to make user login the homepage
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+    //now updating local storage also
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      error,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

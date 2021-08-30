@@ -52,7 +52,7 @@ function MyNotes({ history }) {
 
   //////////////////
   return (
-    <Mainscreen title={`Welcome back ${userInfo.data.name}...`}>
+    <Mainscreen title={`Welcome back ${userInfo?.data.name}...`}>
       <Link to="/createnote">
         <Button variant="primary" size="lg">
           Create New Note

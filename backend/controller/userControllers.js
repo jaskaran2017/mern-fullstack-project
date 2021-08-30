@@ -66,4 +66,35 @@ const authUser = async_handler(async (req, res) => {
   // }
 });
 
-module.exports = { registerUser, authUser };
+const updateUserProfile = async_handler(async (req, res) => {
+  //to make sure that the user is real owner of the profile who wants to update his/her profile
+  //first we will get the id then let them to access the edit profile page
+  const user = await User.findById(req.user._id);
+
+  // once the user is authenticated by getting id then
+  if (user) {
+    //then the user can update the below things
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.pic = req.body.pic || user.pic;
+    // but only by entring his/her password so,
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    // after the above conditions are met then the updated user will be saved as user
+    const updatedUser = await user.save();
+    // after the updated user info has been saved then it will be sent to frontend as response
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      pic: updatedUser.pic,
+      token: genToken(updatedUser._id),
+    });
+  } else {
+    res.json(404);
+    throw new Error("User not found !");
+  }
+});
+
+module.exports = { registerUser, authUser, updateUserProfile };
